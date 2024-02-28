@@ -3,15 +3,39 @@ import axios from 'axios'
 
 // axios.defaults.withCredentials = true;
 
-const baseUrl = 'http://localhost:8090'
+const baseUrl = 'https://nodejs-eomp-vi7f.onrender.com'
+
+
+function ProductDetails(props) {
+  const { prodID } = props.match.params; // Get the product ID from route parameters
+  const [product, setProduct] = useState({});
+  useEffect(() => {
+    axios.get(`https://nodejs-eomp-vi7f.onrender.com`)
+      .then((res) => {
+        setProduct(res.data);
+      })
+      .catch((err) => {
+        console.error('Error fetching product details:', err);
+      });
+  }, [prodID]);
+  return (
+    <div>
+      <h1>{products.prodName}</h1>
+      <p>{product.amount}</p>
+    </div>
+  );
+}
+
 
 export default createStore({
   state: {
     products:null,
     users: null,
   },
+
   getters: {
   },
+  
   mutations: {
     setProduct(state,payload){
       state.products = payload

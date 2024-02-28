@@ -28,19 +28,19 @@
         </div>
         <br><br><br> -->
 
-        <div class="row" v-for="x in foods">
+        <div class="row"  v-for="item in $store.state.products" :key='item'>
           <div class="col-lg-6">
             <br>
-            <p>Name: {{ x.name }}</p>
-            <p>Description: {{ x.desc }}</p>
-            <p>Category: </p>
-            <p>Ammount: R???</p>
+            <p>Name: {{ item.prodName }}</p>
+            <p>Category: {{ item.Category }}</p>
+            <p>Ammount: R{{ item.amount }}</p>
           </div>
 
           <div class="col-lg-6">
-            <img v-bind:src= x.url alt="">
+            <img v-bind:src= item.prodUrl alt="">
             <br><br><br>
           </div>
+          <hr>
         </div>
 
     </div>
@@ -50,22 +50,27 @@ import SlotComp from '@/components/CardSlots.vue'
 import Spinner from '@/components/Spinner.vue'
 
 export default{
-    data(){
+  data(){
     return{
-      foods: [
-          { name: 'Apple', desc: 'Apples are a type of fruit that grow on trees.', url: 'https://i.postimg.cc/Qd9ZHLjd/ed621dee-7aba-44ae-b748-ad8701172440vhghj.jpg'},
-          { name: 'Pizza', desc: 'Pizza has a bread base with tomato sauce, cheese, and toppings on top.', url: 'https://i.postimg.cc/Qd9ZHLjd/ed621dee-7aba-44ae-b748-ad8701172440vhghj.jpg'},
-          { name: 'Rice', desc: 'Rice is a type of grain that people like to eat.', url: 'https://i.postimg.cc/Qd9ZHLjd/ed621dee-7aba-44ae-b748-ad8701172440vhghj.jpg'},
-          { name: 'Fish', desc: 'Fish is an animal that lives in water.', url: 'https://i.postimg.cc/Qd9ZHLjd/ed621dee-7aba-44ae-b748-ad8701172440vhghj.jpg'},
-          { name: 'Cake', desc: 'Cake is something sweet that tates good but is not consodered healthy.', url: 'https://i.postimg.cc/Qd9ZHLjd/ed621dee-7aba-44ae-b748-ad8701172440vhghj.jpg'},
-          { name: 'Sandwich', desc: 'Cake is something sweet that tates good but is not consodered healthy.', url: 'https://i.postimg.cc/Qd9ZHLjd/ed621dee-7aba-44ae-b748-ad8701172440vhghj.jpg'}
-        ]
+      prodName: null,
+      amount: null,
+      Category: null,
+      prodUrl: null
     }
   },
-    components:{
-        SlotComp,
-        Spinner
+  computed:{
+    getProduct(){
+      this.$store.dispatch('getProduct')
     }
+  },
+  mounted(){
+    this.getProduct
+  },
+
+  components:{
+    'slot-comp': SlotComp,
+    Spinner
+  }
 }
 
 </script>
@@ -84,7 +89,8 @@ export default{
   padding-bottom: 10%;
 }
 img{
-  width: 550px;
+  width: 512px;
+  height: 300px;
 }
 h1{
   font-weight: bold;

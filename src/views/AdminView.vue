@@ -95,11 +95,46 @@
           </div>
         </div>
 
+
+        <!-- Edit Users Modal -->
+        <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" v-for="user in $store.state.users" :key="user.userID">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+                <a class="btn-close" data-bs-dismiss="modal" aria-label="Close"></a>
+              </div>
+              <div class="modal-body">
+                <input type="text" name="firstName" id="firstName" placeholder="First Name" v-model="editedUsers.firstName">
+                <br><br>
+                <input type="text" name="lastName" id="lastName" placeholder="Last Name" v-model="editedUsers.lastName">
+                <br><br>
+                <input type="text" name="userAge" id="userAge" placeholder="Age" v-model="editedUsers.userAge">
+                <br><br>
+                <input type="text" name="Gender" id="Gender" placeholder="Gender" v-model="editedUsers.Gender">
+                <br><br>
+                <input type="text" name="userRole" id="userRole" placeholder="Role" v-model="editedUsers.userRole">
+                <br><br>
+                <input type="email" name="emailAdd" id="emailAdd" placeholder="Email" v-model="editedUsers.emailAdd">
+                <br><br>
+                <input type="password" name="userPass" id="userPass" placeholder="Password" v-model="editedUsers.userPass">
+                <br><br>
+                <input type="text" name="userProfile" id="userProfile" placeholder="Profile" v-model="editedUsers.userProfile">
+                <br><br>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" data-bs-dismiss="modal">Close</button>
+                  <button @click="saveUserEdit">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <button class="outsideButtons">Sort</button>
         <br><br>
         <h2>Products</h2>
         <br><br>
-        <button class="outsideButtons" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product</button>
+        <button class="outsideButtons" data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="bi bi-cart-plus">Add Product</span></button>
         <br><br>
 
         <table class="table">
@@ -124,9 +159,9 @@
               <td>{{ item.Category }}</td>
               <td><img v-bind:src= "item.prodUrl" alt="productImage"></td>
               <td>
-                <button @click="populateFields(item)" data-bs-toggle="modal" data-bs-target="#exampleModal2">Edit</button>
+                <button @click="populateFields(item)" data-bs-toggle="modal" data-bs-target="#exampleModal2"><span class="bi bi-pencil" name="Edit">Edit</span></button>
                 <br><br>
-                <button @click="deleteItem(item.prodID)">Delete</button>
+                <button @click="deleteItem(item.prodID)"><span class="bi bi-trash" name="Delete">Delete</span></button>
               </td>
             </tr>
           </tbody>
@@ -135,7 +170,7 @@
         <br><br><br>
 
         <h2>Users</h2>
-        <button class="outsideButtons" data-bs-toggle="modal" data-bs-target="#exampleModal3">Add User</button>
+        <button class="outsideButtons" data-bs-toggle="modal" data-bs-target="#exampleModal3"><span class="bi bi-person-plus">Add User</span></button>
         <br><br>
         
         <table class="table">
@@ -166,9 +201,9 @@
               <td>{{ user.userPass }}</td>
               <td>{{ user.userProfile }}</td>
               <td>
-                <button @click="populateUsers(users)">Edit</button>
+                <button @click="populateUsers(user)" data-bs-toggle="modal" data-bs-target="#exampleModal4"><span class="bi bi-pencil" name="Edit">Edit</span></button>
                 <br><br>
-                <button @click="deleteUser(user.userID)">Delete</button>
+                <button @click="deleteUser(user.userID)"><span class="bi bi-trash" name="Delete">Delete</span></button>
               </td>
             </tr>
           </tbody>
@@ -251,6 +286,10 @@ export default{
       this.editedItem = { ...item };
     },
 
+    populateUsers(user) {
+      this.editedUsers = { ...user };
+    },
+
     addProduct(){
       this.$store.dispatch('getPost', this.$data)
     },
@@ -282,12 +321,9 @@ export default{
     // },
 
 
-    populateUsers(user) {
-      this.editedUsers = { ...user };
-    },
 
     addUser(){
-      this.$store.dispatch('getUsers', this.$data)
+      this.$store.dispatch('addUsers', this.$data)
     },
 
     deleteUser(userName){
