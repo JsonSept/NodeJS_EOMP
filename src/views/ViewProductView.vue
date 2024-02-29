@@ -2,33 +2,9 @@
     <div class="View">
         <br><br><br>
         <h1>View Product</h1>
-
-        <!-- <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-                
-                
-              <div class="row">
-                  
-                  <div class="col-lg-4">
-                      <div class="card" style="width: 18rem;">
-                        <img src="https://i.postimg.cc/Qd9ZHLjd/ed621dee-7aba-44ae-b748-ad8701172440vhghj.jpg" class="card-img-top" alt="">
-                        <div class="card-body">
-                          <h5 class="card-title">Prod1</h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">View</a>
-                        </div>
-                      </div>
-                  </div>
-                   
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <br><br><br> -->
-
-        <div class="row"  v-for="item in $store.state.products" :key='item'>
+        <br><br><br>
+        <router-link to="/products"><button>Return To Products</button></router-link>
+        <!-- <div class="row"  v-for="item in $store.state.products" :key='item.prodID'>
           <div class="col-lg-6">
             <br>
             <p>Name: {{ item.prodName }}</p>
@@ -41,6 +17,27 @@
             <br><br><br>
           </div>
           <hr>
+        </div> -->
+
+        <div v-if="myProducts">
+          <div class="row">
+          <div class="col-lg-6">
+            <br>
+            <p>Name: {{ myProducts.prodName }}</p>
+            <p>Category: {{ myProducts.Category }}</p>
+            <p>Ammount: R{{ myProducts.amount }}</p>
+          </div>
+
+          <div class="col-lg-6">
+            <img :src= myProducts.prodUrl alt="productImage">
+            <br><br><br>
+          </div>
+          <hr>
+        </div>
+
+        </div>
+        <div v-else>
+          <Spinner></Spinner>
         </div>
 
     </div>
@@ -52,6 +49,7 @@ import Spinner from '@/components/Spinner.vue'
 export default{
   data(){
     return{
+      // products:null,
       prodName: null,
       amount: null,
       Category: null,
@@ -60,11 +58,27 @@ export default{
   },
   computed:{
     getProduct(){
-      this.$store.dispatch('getProduct')
+      return this.$store.dispatch('getProduct')
+    },
+    myProducts(){
+      return this.$store.state.products
     }
   },
+  methods:{
+    async getData(prodID){
+      try{
+        const item = await this.$store.dispatch('getItem', prodID)
+        console.log(item);
+      }catch (error){
+        console.error(error);
+      }
+    }
+  },
+  // created(){
+  //   this.getData(prodID)
+  // },
   mounted(){
-    this.getProduct
+    this.getProduct;
   },
 
   components:{

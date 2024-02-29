@@ -3,7 +3,8 @@ import axios from 'axios'
 
 // axios.defaults.withCredentials = true;
 
-const baseUrl = 'https://nodejs-eomp-vi7f.onrender.com'
+// const baseUrl = 'https://nodejs-eomp-vi7f.onrender.com'
+const baseUrl = 'http://localhost:8090'
 
 
 function ProductDetails(props) {
@@ -49,6 +50,13 @@ export default createStore({
       let {data} = await axios.get(baseUrl + '/products')
       // console.log(data);
       commit('setProduct', data)
+    },
+
+    async getItem({commit}, prodID){
+      let {data} = await axios.get(baseUrl + '/products/' + prodID)
+      console.log(data);
+      commit('setProduct', data)
+      return data
     },
 
     async getPost({commit}, productDetails){

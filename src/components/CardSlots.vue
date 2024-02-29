@@ -1,25 +1,52 @@
 <template>
     <div>
         <slot>
-        <div class="row">
-            
-            <div class="col-lg-4" v-for="item in $store.state.products" :key='item'>
-                <div class="card"  style="width: 18rem;">
-                    <img v-bind:src="item.prodUrl" alt="">
-                    <h5>{{ item.prodName }}</h5>
-                    <p>R{{ item.amount }}</p>
-                    <p>Category: {{ item.Category }}</p>
-                    <button >View</button>
-                  </div>
-                </div>
+          <div v-if="getItem">
+            <div class="row">
                 
-              </div>
-            </slot>
+                <div class="col-lg-4" v-for="item in $store.state.products" :key='item'>
+                    <div class="card"  style="width: 18rem;">
+  
+                        <img v-bind:src="item.prodUrl" alt="">
+                        <h5>{{ item.prodName }}</h5>
+                        <p>R{{ item.amount }}</p>
+                        <p>Category: {{ item.Category }}</p>
+                        
+                        <router-link to="/productView"><button @click="getItem(item.prodID)">View</button></router-link>
+                    
+                      </div>
+                </div>
+                    
+            </div>
+
+          </div>
+          <div v-else>
+            <Spinner></Spinner>
+          </div>
+        </slot>
     </div>
 </template>
 
 <script>
-
+import Spinner from '@/components/Spinner.vue'
+export default{
+  data(){
+    return{
+      prodName: null,
+      amount: null,
+      Category: null,
+      prodUrl: null
+    }
+  },
+  methods:{
+    getItem(prodID){
+      this.$store.dispatch('getItem', prodID)
+    }
+  },
+  components:{
+    Spinner
+  }
+}
 </script>
 
 <style scoped>

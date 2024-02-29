@@ -14,5 +14,6 @@ export default {
         height: 150px;
         width: 150px;
         margin-top: 175px;
+        color: black;
     }
 </style>

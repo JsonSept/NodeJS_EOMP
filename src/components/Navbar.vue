@@ -13,9 +13,9 @@
                     <router-link @click.native="closeNavbar" to="/" class="nav-link"><span class="bi bi-cup-hot-fill"> | </span>Home</router-link>
                     <router-link @click.native="closeNavbar" to="/about" class="nav-link"><span class="bi bi-cup-hot"> | </span>About</router-link>
                     <router-link @click.native="closeNavbar" to="/products" class="nav-link"><span class="bi bi-cup-hot-fill"> | </span>Products</router-link>
-                    <router-link @click.native="closeNavbar" to="/productView" class="nav-link"><span class="bi bi-cup-hot"> | </span>View Product</router-link>
-                    <router-link @click.native="closeNavbar" to="/admin" class="nav-link"><span class="bi bi-cup-hot-fill"> | </span>Admin</router-link>
-                    <router-link @click.native="closeNavbar" to="/contact" class="nav-link"><span class="bi bi-cup-hot"> | </span>Contact</router-link>
+                    <!-- <router-link @click.native="closeNavbar" to="/productView" class="nav-link"><span class="bi bi-cup-hot"> | </span>View Product</router-link> -->
+                    <router-link @click.native="closeNavbar" to="/admin" class="nav-link"><span class="bi bi-cup-hot"> | </span>Admin</router-link>
+                    <router-link @click.native="closeNavbar" to="/contact" class="nav-link"><span class="bi bi-cup-hot-fill"> | </span>Contact</router-link>
                 </div>
             </div>
         </div>
