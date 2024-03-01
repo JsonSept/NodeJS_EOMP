@@ -22,16 +22,7 @@ app.use(cookieParser())
 
 
 
-// const authenticate = (req,res,next) =>{
-//     let {cookie} = req.headers
-//     let tokenInHeader = cookie && cookie.split('=')[1]
-//     if(tokenInHeader===null) res.sendStatus(401)
-//     jwt.verify(tokenInHeader,process.env.SECRET_KEY,(err,user)=>{
-// if(err) return res.sendStatus(403)
-// req.user = user
-// next()
-// })
-// }
+
 
 app.get('/products/:id', (req, res) => {
     const prodID = req.params;
@@ -44,49 +35,74 @@ app.use('/products',productsRouter)
 
 // const password = userPass
 app.post('/users',async (req,res)=>{
-    const {emailAdd,userPass} = req.body
-    const hash = await bcrypt.hash(userPass,13)
+    const {userPass} = req.body
+    const hash = await bcrypt.hash(userPass,10)
 
-    users.push({
-        emailAdd,
-        userPass : hash
-    })
-    console.log(users)
-
-   emailAdd,userPass
-
-
+    
     res.send({
         msg: "You have registered successfully"
      })
-    //  async (err,hash)=>{
-    //     if(err) throw err
-    //     await addUser(emailAdd,hash)
-    // })
+    
+})
+    app.post('/login',(req,res)=>{
+    
+    res.json({
+        token:token,
+        msg:'You have logged in'
+    })
+})
     
 })
 
 
-// const auth = async (req,res,next) => {  //middleware (req,res,next())
-//     const {password,username} = req.body
-//     const hashedPassword = await checkUser(username)
-//     bcrypt.compare(password,hashedPassword, (err,result)=>{
-//         if(err) throw err
-//         if(result === true){
-//             const {username} = req.body
-//         const token = jwt.sign({username:username},
-//         process.env.SECRET_KEY,{expiresIn:'1h'})
-//         //res.cookie('jwt',token,{httpOnly:false}) //true only backend user can access on frontend--- if it is set to true than only the backend user can set the
-//         res.send({
-//             token:token, //first one is the token ,second one is the value of the token
-//             msg:'You have logged in!!! YAY!'
-//         })
-//         next()
-//         }else{
-//             res.send({msg:'The username or password is incorrect'})
-//         }
-//     })
-// }
+app.post('/users',(req,res)=>{
+    const {firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile} = req.body
+    bcrypt.hash(userPass,10, async (err,hash)=>{
+        if(err) throw err
+        await addUser(emailAdd,hash)
+        
+        res.send(await addUser(emailAdd,hash))
+    })
+    res.send({
+       msg: "You have registered successfully"
+    })
+})
+
+const auth = async (req,res,next) => { 
+    const {firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile} = req.body
+    const hashedPassword = await checkUser(username )
+    bcrypt.compare(userPass,hashedPassword, (err,result)=>{
+        if(err) throw err
+        if(result === true){
+            const {username} = req.body
+        const token = jwt.sign({username:username},
+        process.env.SECRET_KEY,{expiresIn:'1h'})
+        res.cookie('jwt',token,{httpOnly:false})
+        res.send({
+            token:token,
+            msg:'You are logged in'
+        })
+        next()
+        }else{
+            res.send({msg:'The username or password is incorrect'})
+        }
+    })
+    }
+
+    app.post('/login',auth, (req,res)=>{
+        res.send({
+            msg:'You are logged in'
+        })
+    })
+    app.delete('/logout',(req,res)=>{
+        res.clearCookie('jwt')
+        res.send({
+            msg:'logging out'
+        })
+    })
+
+
+
 
 app.listen(PORT, ()=>{
     console.log('http://localhost:'+ PORT);
