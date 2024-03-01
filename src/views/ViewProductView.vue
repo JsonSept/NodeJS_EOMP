@@ -4,7 +4,7 @@
         <h1>View Product</h1>
         <br><br><br>
         <router-link to="/products"><button>Return To Products</button></router-link>
-        <!-- <div class="row"  v-for="item in $store.state.products" :key='item.prodID'>
+        <div class="row"  v-for="item in $store.state.products" :key='item.prodID'>
           <div class="col-lg-6">
             <br>
             <p>Name: {{ item.prodName }}</p>
@@ -17,9 +17,9 @@
             <br><br><br>
           </div>
           <hr>
-        </div> -->
+        </div>
 
-        <div v-if="myProducts">
+        <!-- <div v-if="myProducts">
           <div class="row">
           <div class="col-lg-6">
             <br>
@@ -38,7 +38,7 @@
         </div>
         <div v-else>
           <Spinner></Spinner>
-        </div>
+        </div> -->
 
     </div>
 </template>

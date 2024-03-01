@@ -1,7 +1,6 @@
 <template>
     <div>
         <slot>
-          <div v-if="getItem">
             <div class="row">
                 
                 <div class="col-lg-4" v-for="item in $store.state.products" :key='item'>
@@ -19,10 +18,8 @@
                     
             </div>
 
-          </div>
-          <div v-else>
-            <Spinner></Spinner>
-          </div>
+  
+
         </slot>
     </div>
 </template>
@@ -57,6 +54,10 @@ export default{
   padding-bottom: 5%;
   padding-left: 2%;
   height: 450px;
+}
+.card:hover{
+  transform: scale(1.05);
+
 }
 img{
   padding-top: 3%;

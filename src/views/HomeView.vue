@@ -2,8 +2,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
   <div class="home">
     <br><br><br>
-    <div>
-      <h1><span id="cursive">Welcome To The</span> <br> DELUXE CAFÉ</h1>
+    <div class="middle">
+      <h1><span id="cursive" >Welcome To The</span> <br> DELUXE CAFÉ</h1>
       <br><br><br>
       <p>Deluxe Café is a trendy startup café nestled in the heart of the city, offering a luxurious yet cozy ambiance where patrons can indulge in artisanal coffee, delectable pastries, and gourmet sandwiches. With a focus on quality ingredients sourced locally, the café aims to elevate the traditional café experience by infusing it with modern sophistication.</p>
       <br><br>
@@ -54,6 +54,43 @@ h1{
 #cursive{
   font-family: "Sofia";
 }
+
+.middle{
+      animation: fadeIn 1s ease;
+      animation-duration: 5s;
+    }
+    #left{
+      animation: fromRight 1s ease;
+      animation-duration: 5s;
+    }
+    #right{
+      animation: fromLeft 1s ease;
+      animation-duration: 5s;
+    }
+    @keyframes fromLeft {
+      0%{
+        transform: translateX(100%);
+      }
+      100%{
+        transform: translateX(0%);
+      }
+    }
+    @keyframes fromRight {
+        0%{
+          transform: translateX(-100%);
+        }
+        100%{
+          transform: translateX(0%);
+        }
+    }
+    @keyframes fadeIn {
+        0%{
+          opacity: 0%;
+        }
+        100%{
+          opacity: 100%;
+        }
+    }
 
 @media screen and (max-width:1080px){
   .home{

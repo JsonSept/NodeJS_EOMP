@@ -4,7 +4,7 @@
     <div>
       <h1>About Us</h1>
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6" id="left">
           <br><br>
           <h3>Who are We?</h3>
           <p>Deluxe Café isn't just another coffee shop; it's an immersive experience designed to cater to the discerning tastes of urbanites seeking a blend of elegance and comfort. As you step through its inviting doors, you're greeted by the rich aroma of freshly brewed coffee beans and the warm glow of Edison bulbs casting a soft light over the modern, minimalist decor.</p>
@@ -18,19 +18,19 @@
           <p>Whether you're seeking a quiet spot to work, a casual meeting place, or simply a place to unwind and recharge, Deluxe Café offers a haven where every visit feels like a luxurious treat for the senses. It's more than just a café; it's a destination where the art of coffee meets the art of living.</p>
  
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6" id="right">
           <br><br><br>
           <img src="https://i.postimg.cc/brxJbXsG/f0fc08ff-113e-475b-a230-92ce946b8d88.jpg" alt="about1">
         </div>
       </div>
       <br><br>
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6" id="left">
           <br><br><br>
           <img src="https://i.postimg.cc/85CV12Vd/c19ff7fd-d3c2-4bc0-91d8-e0eb35bcded1.jpg" alt="about2">
           <br><br>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6" id="right">
           <br><br>
           <h3>Our Purpose</h3>
           <p>The purpose of Deluxe Café is to provide more than just a place to grab a cup of coffee; it aims to create a vibrant and welcoming community hub where people can gather, connect, and indulge in high-quality coffee and food offerings. The café strives to elevate the traditional café experience by offering a blend of elegance and comfort, fostering an environment where patrons feel inspired to linger, socialize, work, or simply unwind. Through its carefully curated menu, cozy ambiance, and regular events, Deluxe Café seeks to enrich the lives of its customers by providing a space where they can relax, recharge, and enjoy the finer things in life.</p>
@@ -39,7 +39,7 @@
       </div>
       <br><br>
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6" id="left">
           <br><br>
           <h3>The Founders</h3>
           <p>
@@ -54,7 +54,7 @@
             Today, Darren and Jason continue to be the driving force behind Deluxe Café, constantly striving to innovate and evolve while staying true to their original vision. Their journey serves as an inspiration to aspiring entrepreneurs everywhere, proving that with passion, perseverance, and a strong sense of purpose, anything is possible.
           </p>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6" id="right">
           <br><br><br>
           <img src="https://i.postimg.cc/YCm4V4KB/06263c1f-093a-47cd-b87e-fdc7a75d5209.jpg" alt="about3">
         </div>
@@ -98,6 +98,43 @@ img{
 h1{
   font-weight: bold;
 }
+
+#middle{
+      animation: fadeIn 1s ease;
+      animation-duration: 5s;
+    }
+    #left{
+      animation: fromRight 1s ease;
+      animation-duration: 5s;
+    }
+    #right{
+      animation: fromLeft 1s ease;
+      animation-duration: 5s;
+    }
+    @keyframes fromLeft {
+      0%{
+        transform: translateX(100%);
+      }
+      100%{
+        transform: translateX(0%);
+      }
+    }
+    @keyframes fromRight {
+        0%{
+          transform: translateX(-100%);
+        }
+        100%{
+          transform: translateX(0%);
+        }
+    }
+    @keyframes fadeIn {
+        0%{
+          opacity: 0%;
+        }
+        100%{
+          opacity: 100%;
+        }
+    }
 
 @media screen and (max-width:720px){
   .about{

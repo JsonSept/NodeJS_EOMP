@@ -115,10 +115,12 @@
         
         <h3>All Products</h3>
         <br><br>
+
         <p>Deluxe Café isn't just about drinks. The menu features a mouthwatering array of pastries, baked goods, and light bites, all made in-house with the finest ingredients. From flaky croissants to decadent cakes, there's something to satisfy every craving.</p>
         <br><br>
-        
-        <slot-comp></slot-comp>
+        <Spinner v-if="loadingProducts" />
+          <slot-comp></slot-comp>
+
         
     </div>
 </template>
@@ -130,6 +132,8 @@ import Spinner from '@/components/Spinner.vue'
 export default{
   data(){
     return{
+      loadingProducts: false,
+
       prodName: null,
       amount: null,
       Category: null,
@@ -137,9 +141,16 @@ export default{
     }
   },
   computed:{
-    getProduct(){
-      this.$store.dispatch('getProduct')
-    }
+    async getProduct(){
+      try{
+        this.loadingProducts = true
+        await this.$store.dispatch('getProduct')
+      }catch (error){
+        console.error(error);
+      }finally{
+        this.loadingProducts =false
+      }
+    },
   },
   mounted(){
     this.getProduct

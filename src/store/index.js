@@ -3,8 +3,8 @@ import axios from 'axios'
 
 // axios.defaults.withCredentials = true;
 
-// const baseUrl = 'https://nodejs-eomp-vi7f.onrender.com'
-const baseUrl = 'http://localhost:8090'
+const baseUrl = 'https://nodejs-eomp-vi7f.onrender.com'
+// const baseUrl = 'http://localhost:8090'
 
 
 function ProductDetails(props) {
@@ -30,7 +30,7 @@ function ProductDetails(props) {
 
 export default createStore({
   state: {
-    products:null,
+    products: [],
     users: null,
   },
 

@@ -130,46 +130,110 @@
           </div>
         </div>
 
-        <button class="outsideButtons">Sort</button>
         <br><br>
         <h2>Products</h2>
         <br><br>
-        <button class="outsideButtons" data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="bi bi-cart-plus">Add Product</span></button>
+
+
+        <button @click="sortByPrice" class="outsideButtons" title="Sort By Price"><span class="bi bi-filter-circle"></span>Sort Price</button> 
+        <br><br>
+        <button @click="sortByName" class="outsideButtons" title="Sort By Name"><span class="bi bi-filter-circle"></span>Sort Name</button> 
         <br><br>
 
-        <table class="table">
 
-          <thead>
-            <tr class="table-dark">
-              <th scope="col">ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Amount</th>
-              <th scope="col">Category</th>
-              <th scope="col">Image Url</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody v-for="item in $store.state.products" :key="item">
-            <tr>
-              <td>{{ item.prodID }}</td>
-              <td>{{ item.prodName }}</td>
-              <td></td>
-              <td>R{{ item.amount }}</td>
-              <td>{{ item.Category }}</td>
-              <td><img v-bind:src= "item.prodUrl" alt="productImage"></td>
-              <td>
-                <button @click="populateFields(item)" data-bs-toggle="modal" data-bs-target="#exampleModal2"><span class="bi bi-pencil" name="Edit">Edit</span></button>
-                <br><br>
-                <button @click="deleteItem(item.prodID)"><span class="bi bi-trash" name="Delete">Delete</span></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <Spinner v-if="loadingProducts" />
+          <button class="outsideButtons" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Add Product"><span class="bi bi-cart-plus"></span>Add Product</button>
+          <br><br>
+  
+          <table class="table">
+  
+            <thead>
+              <tr class="table-dark">
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Category</th>
+                <th scope="col">Image Url</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr v-for="item in sortedProducts" :key="item.prodID">
+                <td>{{ item.prodID }}</td>
+                <td>{{ item.prodName }}</td>
+                <td></td>
+                <td>R{{ item.amount }}</td>
+                <td>{{ item.Category }}</td>
+                <td><img v-bind:src= "item.prodUrl" alt="productImage"></td>
+                <td>
+                  <button @click="populateFields(item)" data-bs-toggle="modal" data-bs-target="#exampleModal2"><span class="bi bi-pencil" name="Edit">Edit</span></button>
+                  <br><br>
+                  <button @click="deleteItem(item.prodID)"><span class="bi bi-trash" name="Delete">Delete</span></button>
+                </td>
+              </tr>
+            </tbody>
+            
+          </table>
 
-        <br><br><br>
+       <!-- Search And Sort -->
+      <br><br><br><br><br>
+        <input type="text" v-model="searchQuery" placeholder="Seach by Name" >
+        <!-- <button class=" bi bi-search" @click="searchProduct"></button> -->
+        <br><br>
+
+          <table class="table">
+            <thead>
+              <tr class="table-dark">
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Category</th>
+                <th scope="col">Image Url</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody v-if="filteredProducts && filteredProducts.length > 0">
+              <tr v-for="item in filteredProducts" :key="item.prodID">
+                <td>{{ item.prodID }}</td>
+                <td>{{ item.prodName }}</td>
+                <td></td>
+                <td>R{{ item.amount }}</td>
+                <td>{{ item.Category }}</td>
+                <td><img v-bind:src= "item.prodUrl" alt="productImage"></td>
+                <td>
+                  <button @click="populateFields(item)" data-bs-toggle="modal" data-bs-target="#exampleModal2"><span class="bi bi-pencil" name="Edit">Edit</span></button>
+                  <br><br>
+                  <button @click="deleteItem(item.prodID)"><span class="bi bi-trash" name="Delete">Delete</span></button>
+                </td>
+              </tr>
+            </tbody>
+            <tbody v-else>
+              <tr v-for="item in $store.state.products" :key="item.prodID">
+                <td>{{ item.prodID }}</td>
+                <td>{{ item.prodName }}</td>
+                <td></td>
+                <td>R{{ item.amount }}</td>
+                <td>{{ item.Category }}</td>
+                <td><img v-bind:src= "item.prodUrl" alt="productImage"></td>
+                <td>
+                  <button @click="populateFields(item)" data-bs-toggle="modal" data-bs-target="#exampleModal2"><span class="bi bi-pencil" name="Edit">Edit</span></button>
+                  <br><br>
+                  <button @click="deleteItem(item.prodID)"><span class="bi bi-trash" name="Delete">Delete</span></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  
+          <br><br><br>
+
+ 
+
 
         <h2>Users</h2>
+
+        <Spinner v-if="loadingUsers" />
         <button class="outsideButtons" data-bs-toggle="modal" data-bs-target="#exampleModal3"><span class="bi bi-person-plus">Add User</span></button>
         <br><br>
         
@@ -215,6 +279,8 @@
 <script>
 import Spinner from '@/components/Spinner.vue'
 
+
+
 export default{
   components:{
     Spinner
@@ -222,6 +288,13 @@ export default{
 
   data(){
     return{
+      loadingProducts: false,
+      loadingUsers: false,
+
+      searchQuery: '',
+      sortBy: '',
+      sortOrder: '',
+
       prodID: null,
       prodName: null,
       amount: null,
@@ -264,12 +337,55 @@ export default{
 
   computed:{
 
-    getProduct(){
-      this.$store.dispatch('getProduct')
+    async getProduct(){
+      try{
+        this.loadingProducts = true
+        await this.$store.dispatch('getProduct')
+      }catch (error){
+        console.error(error);
+      }finally{
+        this.loadingProducts =false
+      }
     },
 
-    getUsers(){
-      this.$store.dispatch('getUsers')
+
+    async getUsers(){
+      try{
+        this.loadingUsers = true
+        await this.$store.dispatch('getUsers')
+      }catch(error){
+        console.error(error);
+      }finally{
+        this.loadingUsers = false
+      }
+    },
+
+    filteredProducts() {
+      return this.$store.state.products.filter(product =>
+        product.prodName.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    },
+
+    sortedProducts(){
+      let sorted = [...this.$store.state.products]
+      if(this.sortBy === 'name'){
+        sorted.sort((a,b) =>{
+          if(this.sortOrder === 'ascending'){
+            return a.prodName.localeCompare(b.prodName)
+          }else{
+            return b.prodName.localeCompare(a.prodName)
+          }
+        })
+      }else if(this.sortBy === 'price'){
+        sorted.sort((a,b) => {
+          if(this.sortOrder === 'ascending'){
+            return a.amount - b.amount
+          }else{
+            return b.amount - a.amount
+          }
+        })
+      }
+      return sorted
     }
 
   },
@@ -288,6 +404,18 @@ export default{
 
     populateUsers(user) {
       this.editedUsers = { ...user };
+    },
+
+    searchProduct(){
+    },
+
+    sortByPrice(){
+      this.sortBy = 'price'
+      this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending'
+    },
+    sortByName(){
+      this.sortBy = 'name'
+      this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending'
     },
 
     addProduct(){
@@ -375,10 +503,14 @@ export default{
 h1, h5{
   font-weight: bold;
 }
+img{
+  width: 200px;
+  height: 150px;
+}
 .outsideButtons{
-  text-align: justify;
-  width: 40px;
-  margin-left: 89%;
+  height: 55px;
+  width: auto;
+  margin-left: 80%;
 }
 button{
       background-color: #ffffff;
