@@ -51,8 +51,6 @@ app.post('/users',async (req,res)=>{
         msg:'You have logged in'
     })
 })
-    
-})
 
 
 app.post('/users',(req,res)=>{
